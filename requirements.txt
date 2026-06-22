@@ -1,5 +1,6 @@
 matplotlib
 numpy
 scipy
-openpyxl
 requests
+pandas
+openpyxl
