@@ -25,11 +25,18 @@ jobs:
 
       - run: python update_bitcoinity_data.py
 
+      - run: cp bitcoinity_data.txt site/
+
       - run: python Bitcoinity_LongtermTrendChart_log10.py
 
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
+      
+      - uses: actions/upload-artifact@v4
+        with:
+          name: bitcoinity-data
+          path: bitcoinity_data.txt
 
   deploy:
     needs: build
