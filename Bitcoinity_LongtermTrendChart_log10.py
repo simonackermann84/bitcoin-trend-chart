@@ -325,7 +325,7 @@ leg=plt.legend([line1,line2,line3,line4,line5],
                 'Starts at 4$^\mathrm{th}$ halving on 20.04.2024: 10$^0$ = \$'+str4,
                 '09.12. in 2013, 2017, 2021, 2025'],
                numpoints=1,handler_map={tuple: HandlerTuple(ndivide=None)},
-               fontsize=3,loc='lower right',bbox_to_anchor=(0.99,0.01),edgecolor='none',facecolor='white')
+               fontsize=3,loc='upper right',bbox_to_anchor=(0.85,0.999),edgecolor='none',facecolor='white')
 leg.get_frame().set_linewidth(0.5)
 leg.get_frame().set_alpha(1.0)
 os.makedirs("site", exist_ok=True)
