@@ -15,7 +15,7 @@ from scipy import interpolate
 import matplotlib.ticker as mticker
 print(os.getcwd())          #Print path
 #Import data
-myfile=open('../bitcoinity_data.txt','r')
+myfile=open('bitcoinity_data.txt','r')
 data=myfile.readlines()
 #-----------------------------------------------------------------------------------------------------------
 #Read lines and sort data into vectors
