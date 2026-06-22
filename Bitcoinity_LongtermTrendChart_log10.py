@@ -150,14 +150,14 @@ xmax=2032
 xstep=2.0
 ymax=1000000
 plt.rcParams['axes.linewidth']=lw
-fig=plt.figure(figsize=(12/2.54,8/2.54),facecolor='white')
+fig=plt.figure(figsize=(10/2.54,7/2.54),facecolor='white')
 ax=plt.subplot()
 ax.tick_params(width=lw)
 plt.grid(True,which='minor',color=[0.7,0.7,0.7],linestyle='-',linewidth=0.25)
 plt.grid(True,which='major',color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 #ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 ax.set_axisbelow(True)      #Draw grid lines behind data
-plt.subplots_adjust(left=0.1,right=0.96,top=0.96,bottom=0.12)
+plt.subplots_adjust(left=0.12,right=0.96,top=0.96,bottom=0.12)
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 ax.set_xlim([xmin,xmax])
 ax.set_ylim([0.01,ymax])
@@ -207,5 +207,5 @@ ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid7[lnr-1]*0.9,price_fit_mid7_end,c
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_up[lnr-1]*0.9,price_fit_up_end+' (daily growth:'+price_grow_fit_up_end+'%)',color='red',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
 os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_LongtermTrendChart_log10_1.png'
-plt.savefig(filename,dpi=750)
+plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
