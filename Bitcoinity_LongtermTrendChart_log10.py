@@ -217,3 +217,117 @@ os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_LongtermTrendChart_log10_1.png'
 plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
+#Gains of halving cycles
+date_halving1=datetime(2012,11,28,0,0,0)
+date_halving2=datetime(2016,7,9,0,0,0)
+date_halving3=datetime(2020,5,11,0,0,0)
+date_halving4=datetime(2024,4,20,0,0,0)
+for j in range(0,lnr):
+    if date_halving1>=datetime(year[j],month[j],day[j],0,0,0):
+        j1=j
+    if date_halving2>=datetime(year[j],month[j],day[j],0,0,0):
+        j2=j
+    if date_halving3>=datetime(year[j],month[j],day[j],0,0,0):
+        j3=j
+    if date_halving4>=datetime(year[j],month[j],day[j],0,0,0):
+        j4=j
+    if datetime(2013,12,9,0,0,0)==datetime(year[j],month[j],day[j],0,0,0):
+        jx1=j
+    if datetime(2017,12,9,0,0,0)==datetime(year[j],month[j],day[j],0,0,0):
+        jx2=j
+    if datetime(2021,12,9,0,0,0)==datetime(year[j],month[j],day[j],0,0,0):
+        jx3=j
+    if datetime(2025,12,9,0,0,0)==datetime(year[j],month[j],day[j],0,0,0):
+        jx4=j
+ndays1=[0 for i in range(0,lnr)]
+ndays2=[0 for i in range(0,lnr)]
+ndays3=[0 for i in range(0,lnr)]
+ndays4=[0 for i in range(0,lnr)]
+nweeks1=[0 for i in range(0,lnr)]
+nweeks2=[0 for i in range(0,lnr)]
+nweeks3=[0 for i in range(0,lnr)]
+nweeks4=[0 for i in range(0,lnr)]
+price_norm_h1=[0 for i in range(0,lnr)]
+price_norm_h2=[0 for i in range(0,lnr)]
+price_norm_h3=[0 for i in range(0,lnr)]
+price_norm_h4=[0 for i in range(0,lnr)]
+for j in range(0,lnr):
+    ndays1[j]=ndays[j]-ndays[j1]
+    ndays2[j]=ndays[j]-ndays[j2]
+    ndays3[j]=ndays[j]-ndays[j3]
+    ndays4[j]=ndays[j]-ndays[j4]
+    nweeks1[j]=ndays1[j]/7.0
+    nweeks2[j]=ndays2[j]/7.0
+    nweeks3[j]=ndays3[j]/7.0
+    nweeks4[j]=ndays4[j]/7.0
+    price_norm_h1[j]=price[j]/price[j1]
+    price_norm_h2[j]=price[j]/price[j2]
+    price_norm_h3[j]=price[j]/price[j3]
+    price_norm_h4[j]=price[j]/price[j4]
+nweeks_x1=(ndays[jx1]-ndays[j1])/7.0
+price_norm_hx1=price[jx1]/price[j1]
+nweeks_x2=(ndays[jx2]-ndays[j2])/7.0
+price_norm_hx2=price[jx2]/price[j2]
+nweeks_x3=(ndays[jx3]-ndays[j3])/7.0
+price_norm_hx3=price[jx3]/price[j3]
+nweeks_x4=(ndays[jx4]-ndays[j4])/7.0
+price_norm_hx4=price[jx4]/price[j4]
+#-----------------------------------------------------------------------------------------------------------
+#Plot gains of halving cycles
+print('Plot: Bitcoinity_halving_cycles1.png')
+fs=6
+lw=0.5
+xmin=0
+xmax=52*4
+xstep=13
+ymax=100
+plt.rcParams['axes.linewidth']=lw
+fig=plt.figure(figsize=(12/2.54,8/2.54),facecolor='white')
+ax=plt.subplot()
+ax.tick_params(width=lw)
+plt.grid(True,which='minor',color=[0.7,0.7,0.7],linestyle='-',linewidth=0.25)
+plt.grid(True,which='major',color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
+#ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
+ax.set_axisbelow(True)      #Draw grid lines behind data
+plt.subplots_adjust(left=0.11,right=0.96,top=0.96,bottom=0.13)
+myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
+ax.set_xlim([xmin,xmax])
+ax.set_ylim([0.8,ymax])
+major_xticks=np.arange(xmin,xmax+0.01,xstep)
+ax.set_xticks(major_xticks)
+ax.set_xticklabels(major_xticks,**myfont)
+ax.xaxis.set_major_formatter(FormatStrFormatter('%.0f'))
+#ax.set_yticklabels(ax.get_yticks(),**myfont)
+label_format='{:,.0f}'
+ticks_loc=ax.get_yticks().tolist()
+ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
+ax.set_yticklabels([label_format.format(x) for x in ticks_loc],**myfont)
+plt.xlabel('Weeks since halving: ~4 years until next halving',**myfont)
+plt.ylabel('Actual price / halving price [-]',**myfont)
+line1,=plt.semilogy(nweeks1,price_norm_h1,'k-',linewidth=0.5,solid_capstyle='round')
+line2,=plt.semilogy(nweeks2,price_norm_h2,'b-',linewidth=0.5,solid_capstyle='round')
+line3,=plt.semilogy(nweeks3,price_norm_h3,'r-',linewidth=0.5,solid_capstyle='round')
+line4,=plt.semilogy(nweeks4,price_norm_h4,'g-',linewidth=0.5,solid_capstyle='round')
+line5,=plt.semilogy(nweeks_x1,price_norm_hx1,'ko',linewidth=0.5,markersize=4,markerfacecolor='none')
+line6,=plt.semilogy(nweeks_x2,price_norm_hx2,'bo',linewidth=0.5,markersize=4,markerfacecolor='none')
+line7,=plt.semilogy(nweeks_x3,price_norm_hx3,'ro',linewidth=0.5,markersize=4,markerfacecolor='none')
+line8,=plt.semilogy(nweeks_x4,price_norm_hx4,'go',linewidth=0.5,markersize=4,markerfacecolor='none')
+#leg=plt.legend(handles=[line1,line2,line3,line4,line7],fontsize=4,loc='lower right',bbox_to_anchor=(0.95,0.01),edgecolor='none',facecolor='white')
+str1='{:.2f}'.format(price[j1])
+str2='{:.2f}'.format(price[j2])
+str3='{:.2f}'.format(price[j3])
+str4='{:.2f}'.format(price[j4])
+leg=plt.legend([line1,line2,line3,line4,line5],
+               ['Starts at 1$^\mathrm{st}$ halving on 28.11.2012: 10$^0$ = \$'+str1,
+                'Starts at 2$^\mathrm{nd}$ halving on 09.07.2016: 10$^0$ = \$'+str2,
+                'Starts at 3$^\mathrm{rd}$ halving on 11.05.2020: 10$^0$ = \$'+str3,
+                'Starts at 4$^\mathrm{th}$ halving on 20.04.2024: 10$^0$ = \$'+str4,
+                '09.12. in 2013, 2017, 2021, 2025'],
+               numpoints=1,handler_map={tuple: HandlerTuple(ndivide=None)},
+               fontsize=3,loc='lower right',bbox_to_anchor=(0.99,0.01),edgecolor='none',facecolor='white')
+leg.get_frame().set_linewidth(0.5)
+leg.get_frame().set_alpha(1.0)
+os.makedirs("site", exist_ok=True)
+filename='site/Bitcoinity_halving_cycles1.png'
+plt.savefig(filename,dpi=1000)
+#-----------------------------------------------------------------------------------------------------------
