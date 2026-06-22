@@ -207,5 +207,5 @@ ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid7[lnr-1]*0.9,price_fit_mid7_end,c
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_up[lnr-1]*0.9,price_fit_up_end+' (daily growth:'+price_grow_fit_up_end+'%)',color='red',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
 os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_LongtermTrendChart_log10_1.png'
-plt.savefig(filename,dpi=1000)
+plt.savefig(filename,dpi=750)
 #-----------------------------------------------------------------------------------------------------------
