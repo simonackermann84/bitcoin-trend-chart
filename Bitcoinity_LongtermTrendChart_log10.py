@@ -36,6 +36,7 @@ ndays=[0 for i in range(0,lnr)]
 ndays_y=[0 for i in range(0,lnr)]
 date_abs=[0 for i in range(0,lnr)]
 date_abs_year=[0 for i in range(0,lnr)]
+date_abs_year2=[0 for i in range(0,lnr)]
 #print('Date, ndays, price')
 for j in range(0,lnr):
     str1=data[j+snr].split('.')
@@ -63,14 +64,15 @@ for j in range(0,lnr):
     dt2=datetime(year1,1,1,0,0,0)-datetime(year[j],1,1,0,0,0)
     year_fraction=dt1/dt2
     date_abs_year[j]=year[j]+year_fraction
+    date_abs_year2[j]=year[j]+year_fraction-2011
 #-----------------------------------------------------------------------------------------------------------
 #Least-squares fit of a non-linear logarithmic regression model onto the price data
-def func1(x,a,b,c):
-    y=c*x+a*x**b
-    y=np.where(y<0.0000000001,0.0000000001,y)
-    return np.log(y)
-g=np.array([0.05,5,-0.02])   #Initial guess
-p=optimization.curve_fit(func1,ndays_y,np.log(price),g)
+def func1(x,L,A,k):
+    y=L-A*np.exp(-k*x)
+    #y=np.where(y<0.0000000001,0.0000000001,y)
+    return y
+g=np.array([5.37,4.68,0.193])   #Initial guess
+p=optimization.curve_fit(func1,date_abs_year2,np.log10(price),g)
 print(p[0])
 price_fit=[0 for i in range(0,lnr)]
 price_logdev=[0 for i in range(0,lnr)]
@@ -79,46 +81,52 @@ band_low_price=[]
 band_up_days=[]
 band_up_price=[]
 for i in range(0,lnr):
-    price_fit[i]=np.exp(func1(ndays_y[i],*p[0]))
+    price_fit[i]=10**(func1(date_abs_year2[i],*p[0]))
     #print(price[i],price_fit[i])
     price_logdev[i]=np.log(price[i]/price_fit[i])
     #Low band
-    if date_abs_year[i]<2010.7:
-        band_low_days.append(ndays_y[i])
+    if date_abs_year[i]<2010.8:
+        band_low_days.append(date_abs_year2[i])
         band_low_price.append(price[i])
-    if date_abs_year[i]>2012.5 and date_abs_year[i]<2013:
-        band_low_days.append(ndays_y[i])
+    if date_abs_year[i]>2012 and date_abs_year[i]<2012.8:
+        band_low_days.append(date_abs_year2[i])
         band_low_price.append(price[i])
     if date_abs_year[i]>2015.5 and date_abs_year[i]<2016.7:
-        band_low_days.append(ndays_y[i])
+        band_low_days.append(date_abs_year2[i])
         band_low_price.append(price[i])
     if date_abs_year[i]>2018.8 and date_abs_year[i]<2019.4:
-        band_low_days.append(ndays_y[i])
+        band_low_days.append(date_abs_year2[i])
         band_low_price.append(price[i])
     if date_abs_year[i]>2020.3 and date_abs_year[i]<2020.4:
-        band_low_days.append(ndays_y[i])
+        band_low_days.append(date_abs_year2[i])
+        band_low_price.append(price[i])
+    if date_abs_year[i]>2022.7 and date_abs_year[i]<2024.3:
+        band_low_days.append(date_abs_year2[i])
         band_low_price.append(price[i])
     #High band
-    if date_abs_year[i]<2010.6:
-        band_up_days.append(ndays_y[i])
-        band_up_price.append(price[i])
-    if date_abs_year[i]>2011.4 and date_abs_year[i]<2011.6:
-        band_up_days.append(ndays_y[i])
-        band_up_price.append(price[i])
-    if date_abs_year[i]>2013.9 and date_abs_year[i]<2014.1:
-        band_up_days.append(ndays_y[i])
+    #if date_abs_year[i]<2010.6:
+    #    band_up_days.append(ndays_y[i])
+    #    band_up_price.append(price[i])
+    #if date_abs_year[i]>2011.4 and date_abs_year[i]<2011.6:
+    #    band_up_days.append(ndays_y[i])
+    #    band_up_price.append(price[i])
+    if date_abs_year[i]>2013.7 and date_abs_year[i]<2014.1:
+        band_up_days.append(date_abs_year2[i])
         band_up_price.append(price[i])
     if date_abs_year[i]>2017.9 and date_abs_year[i]<2018.1:
-        band_up_days.append(ndays_y[i])
+        band_up_days.append(date_abs_year2[i])
         band_up_price.append(price[i])
     if date_abs_year[i]>2021 and date_abs_year[i]<2022:
-        band_up_days.append(ndays_y[i])
+        band_up_days.append(date_abs_year2[i])
         band_up_price.append(price[i])
-g_low=np.array([0.02,5,0.03])   #Initial guess
-p_low=optimization.curve_fit(func1,band_low_days,np.log(band_low_price),g_low)
+    if date_abs_year[i]>2025 and date_abs_year[i]<2026.2:
+        band_up_days.append(date_abs_year2[i])
+        band_up_price.append(price[i])
+g_low=np.array([5,4,0.2])   #Initial guess
+p_low=optimization.curve_fit(func1,band_low_days,np.log10(band_low_price),g_low)
 print(p_low[0])
-g_up=np.array([0.8,5,0.01])   #Initial guess
-p_up=optimization.curve_fit(func1,band_up_days,np.log(band_up_price),g_up)
+g_up=np.array([5,4,0.2])   #Initial guess
+p_up=optimization.curve_fit(func1,band_up_days,np.log10(band_up_price),g_up)
 print(p_up[0])
 price_fit_low=[0 for i in range(0,lnr)]
 price_fit_up=[0 for i in range(0,lnr)]
@@ -130,15 +138,15 @@ price_fit_mid5=[0 for i in range(0,lnr)]
 price_fit_mid6=[0 for i in range(0,lnr)]
 price_fit_mid7=[0 for i in range(0,lnr)]
 for i in range(0,lnr):
-    price_fit_low[i]=0.65*np.exp(func1(ndays_y[i],*p_low[0]))
-    price_fit_up[i]=5.5*np.exp(0.88*func1(ndays_y[i],*p_up[0]))
-    price_fit_mid1[i]=np.exp((np.log(price_fit_low[i])+0.125*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid2[i]=np.exp((np.log(price_fit_low[i])+0.25*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid3[i]=np.exp((np.log(price_fit_low[i])+0.375*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid4[i]=np.exp((np.log(price_fit_low[i])+0.5*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid5[i]=np.exp((np.log(price_fit_low[i])+0.625*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid6[i]=np.exp((np.log(price_fit_low[i])+0.75*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
-    price_fit_mid7[i]=np.exp((np.log(price_fit_low[i])+0.875*(np.log(price_fit_up[i])-np.log(price_fit_low[i]))))
+    price_fit_low[i]=0.65*10**(func1(date_abs_year2[i],*p_low[0]))
+    price_fit_up[i]=5.5*10**(0.88*func1(date_abs_year2[i],*p_up[0]))
+    price_fit_mid1[i]=10**((np.log10(price_fit_low[i])+0.125*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid2[i]=10**((np.log10(price_fit_low[i])+0.25*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid3[i]=10**((np.log10(price_fit_low[i])+0.375*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid4[i]=10**((np.log10(price_fit_low[i])+0.5*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid5[i]=10**((np.log10(price_fit_low[i])+0.625*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid6[i]=10**((np.log10(price_fit_low[i])+0.75*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
+    price_fit_mid7[i]=10**((np.log10(price_fit_low[i])+0.875*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
 #-----------------------------------------------------------------------------------------------------------
 #Plot price
 print('Plot: Bitcoinity_LongtermTrendChart_log10_1.png')
