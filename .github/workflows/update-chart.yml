@@ -23,6 +23,8 @@ jobs:
 
       - run: pip install -r requirements.txt
 
+      - run: python update_bitcoinity_data.py
+
       - run: python Bitcoinity_LongtermTrendChart_log10.py
 
       - uses: actions/upload-pages-artifact@v3
