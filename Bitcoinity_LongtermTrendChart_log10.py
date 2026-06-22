@@ -13,6 +13,7 @@ import scipy.optimize as optimization
 import math
 from scipy import interpolate
 import matplotlib.ticker as mticker
+from matplotlib.legend_handler import HandlerTuple
 print(os.getcwd())          #Print path
 #Import data
 myfile=open('bitcoinity_data.txt','r')
