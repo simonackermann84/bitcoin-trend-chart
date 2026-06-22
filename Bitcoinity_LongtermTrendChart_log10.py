@@ -303,7 +303,7 @@ label_format='{:,.0f}'
 ticks_loc=ax.get_yticks().tolist()
 ax.yaxis.set_major_locator(mticker.FixedLocator(ticks_loc))
 ax.set_yticklabels([label_format.format(x) for x in ticks_loc],**myfont)
-plt.xlabel('Weeks since halving: ~4 years until next halving',**myfont)
+plt.xlabel('Weeks since halving: ~4 years between halvings',**myfont)
 plt.ylabel('Actual price / halving price [-]',**myfont)
 line1,=plt.semilogy(nweeks1,price_norm_h1,'k-',linewidth=0.5,solid_capstyle='round')
 line2,=plt.semilogy(nweeks2,price_norm_h2,'b-',linewidth=0.5,solid_capstyle='round')
