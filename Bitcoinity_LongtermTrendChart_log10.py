@@ -332,3 +332,18 @@ os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_halving_cycles1.png'
 plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
+timestamp = datetime.utcnow().strftime("%Y-%m-%d %H:%M UTC")
+
+html = f"""
+<!DOCTYPE html>
+<html>
+<body>
+<h1>Bitcoin Long-Term Trend Chart</h1>
+<p>Last updated: {timestamp}</p>
+...
+</body>
+</html>
+"""
+
+with open("site/index.html", "w") as f:
+    f.write(html)
