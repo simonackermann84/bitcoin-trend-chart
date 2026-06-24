@@ -15,6 +15,7 @@ from scipy import interpolate
 import matplotlib.ticker as mticker
 from matplotlib.legend_handler import HandlerTuple
 print(os.getcwd())          #Print path
+print("UTC at script run start:", datetime.now(timezone.utc))
 #Import data
 myfile=open('bitcoinity_data.txt','r')
 data=myfile.readlines()
@@ -191,7 +192,7 @@ line9,=plt.fill(np.concatenate((date_abs_year,date_abs_year[::-1])),np.concatena
 line10,=plt.fill(np.concatenate((date_abs_year,date_abs_year[::-1])),np.concatenate((price_fit_mid5,price_fit_mid6[::-1])),color='gold',linewidth=0.0,label='Spread',alpha=0.5)
 line11,=plt.fill(np.concatenate((date_abs_year,date_abs_year[::-1])),np.concatenate((price_fit_mid6,price_fit_mid7[::-1])),color='xkcd:orange',linewidth=0.0,label='Spread',alpha=0.5)
 line12,=plt.fill(np.concatenate((date_abs_year,date_abs_year[::-1])),np.concatenate((price_fit_mid7,price_fit_up[::-1])),color='red',linewidth=0.0,label='Model blow-off zone',alpha=0.5)
-leg=plt.legend(handles=[line1,line2,line12,line5],fontsize=5,loc='lower right',bbox_to_anchor=(0.95,0.05),edgecolor='none',facecolor='white')
+leg=plt.legend(handles=[line1,line2,line12,line5],fontsize=4,loc='lower right',bbox_to_anchor=(0.95,0.05),edgecolor='none',facecolor='white')
 leg.get_frame().set_linewidth(0.5)
 leg.get_frame().set_alpha(1.0)
 price_fit_low_end='{:.1f}'.format(price_fit_low[lnr-1])
@@ -214,6 +215,7 @@ ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid5[lnr-1]*0.9,price_fit_mid5_end,c
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid6[lnr-1]*0.9,price_fit_mid6_end,color='gold',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid7[lnr-1]*0.9,price_fit_mid7_end,color='xkcd:orange',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_up[lnr-1]*0.9,price_fit_up_end+' (daily growth:'+price_grow_fit_up_end+'%)',color='red',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
+ax.text(date_abs_year[0]+0.02,ymax*0.6,'UTC plot: '+str(datetime.now(timezone.utc)),color='black',fontname='DejaVu Sans',style='normal',weight='ultralight',size=2.5)
 os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_LongtermTrendChart_log10_1.png'
 plt.savefig(filename,dpi=1000)
@@ -332,4 +334,3 @@ os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_halving_cycles1.png'
 plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
-print("UTC after savefig plots:", datetime.now(timezone.utc))
