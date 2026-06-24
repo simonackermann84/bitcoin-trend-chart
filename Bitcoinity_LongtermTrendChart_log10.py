@@ -4,7 +4,7 @@
 #-----------------------------------------------------------------------------------------------------------
 import os,openpyxl,datetime
 from datetime import date
-from datetime import datetime
+from datetime import datetime, timezone
 import calendar
 import matplotlib.pyplot as plt
 import numpy as np
@@ -332,3 +332,4 @@ os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_halving_cycles1.png'
 plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
+print("UTC after savefig plots:", datetime.now(timezone.utc))
