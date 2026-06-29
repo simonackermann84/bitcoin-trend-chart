@@ -215,7 +215,7 @@ ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid5[lnr-1]*0.9,price_fit_mid5_end,c
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid6[lnr-1]*0.9,price_fit_mid6_end,color='gold',fontname='DejaVu Sans',style='normal',weight='ultralight',size=1.5)
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_mid7[lnr-1]*0.9,price_fit_mid7_end,color='xkcd:orange',fontname='DejaVu Sans',style='normal',weight='ultralight',size=1.5)
 ax.text(date_abs_year[lnr-1]+0.02,price_fit_up[lnr-1]*0.9,price_fit_up_end+' (daily growth:'+price_grow_fit_up_end+'%)',color='red',fontname='DejaVu Sans',style='normal',weight='ultralight',size=1.5)
-ax.text(date_abs_year[0]+0.02,ymax*0.6,'Last plot update: UTC '+str(datetime.now(timezone.utc)),color='black',fontname='DejaVu Sans',style='normal',weight='ultralight',size=3)
+ax.text(date_abs_year[0]+0.02,ymax*0.6,'Last plot update: '+str(datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M UTC")),color='black',fontname='DejaVu Sans',style='normal',weight='ultralight',size=3)
 os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_LongtermTrendChart_log10_1.png'
 plt.savefig(filename,dpi=1000)
