@@ -414,7 +414,7 @@ plt.rcParams['axes.linewidth']=lw
 fig=plt.figure(figsize=(10/2.54,7/2.54),facecolor='white')
 ax=plt.subplot()
 ax.tick_params(width=lw)
-plt.subplots_adjust(left=0.13,right=0.96,top=0.94,bottom=0.12)
+plt.subplots_adjust(left=0.13,right=0.96,top=0.96,bottom=0.12)
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 ax.set_xlim([xmin,xmax])
 ax.set_ylim([ymin,ymax])
