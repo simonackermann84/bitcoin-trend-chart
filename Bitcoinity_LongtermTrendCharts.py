@@ -422,7 +422,7 @@ ax.set_yticks(major_yticks)
 ax.set_yticklabels(major_yticks,**myfont)
 ax.xaxis.set_major_formatter(FormatStrFormatter('%.0f'))
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
-#plt.xlabel('Year',**myfont)
+plt.xlabel('Year',**myfont)
 plt.ylabel('Weekly MACD/Price (12,26,close,9)',**myfont)
 for i in range(0,lnr_dr,1):
     plt.plot([year_dr[i],year_dr[i]],[0,p_perc_change_dr[i]],'-',color='xkcd:sky blue',linewidth=0.75,label='%-price-change ')
@@ -529,7 +529,7 @@ major_yticks=np.arange(ymin,ymax+0.01,ystep)
 ax.set_yticks(major_yticks)
 ax.set_yticklabels(major_yticks,**myfont)
 ax.yaxis.set_major_formatter(FormatStrFormatter('%.0f'))
-#plt.xlabel('Year',**myfont)
+plt.xlabel('Year',**myfont)
 plt.ylabel('Price [USD]',**myfont)
 for i in range(j_start,lnr,1):
     if price[i]>=price[i-1]:
