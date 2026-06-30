@@ -150,7 +150,7 @@ for i in range(0,lnr):
     price_fit_mid6[i]=10**((np.log10(price_fit_low[i])+0.75*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
     price_fit_mid7[i]=10**((np.log10(price_fit_low[i])+0.875*(np.log10(price_fit_up[i])-np.log10(price_fit_low[i]))))
 #-----------------------------------------------------------------------------------------------------------
-#Plot price
+#Plot price and bands
 print('Plot: Bitcoinity_LongtermTrendChart_log10.png')
 fs=6
 lw=0.5
@@ -332,6 +332,109 @@ leg.get_frame().set_linewidth(0.5)
 leg.get_frame().set_alpha(1.0)
 os.makedirs("site", exist_ok=True)
 filename='site/Bitcoinity_halving_cycles.png'
+plt.savefig(filename,dpi=1000)
+#-----------------------------------------------------------------------------------------------------------
+#Weekly MACD
+#MACD Line: (12-day EMA - 26-day EMA)
+#Signal Line: 9-day EMA of MACD Line
+#MACD Histogram: MACD Line - Signal Line (not implemented)
+print('Calculate weekly MACD')
+dr=7
+a=-1
+for i in range(0,lnr,dr):
+    a=a+1
+lnr_dr=a+1
+a=-1
+ndays_dr=[0 for i in range(0,lnr_dr)]
+year_dr=[0 for i in range(0,lnr_dr)]
+pm=[0 for i in range(0,lnr_dr)]
+ma_w_20=[0 for i in range(0,lnr_dr)]
+for i in range(0,lnr,dr):
+    a=a+1
+    ndays_dr[a]=ndays[i]
+    year_dr[a]=date_abs_year[i]
+    if i+dr<=len(ndays):
+        ende=i+dr
+        pm[a]=sum(price[i:ende])/len(price[i:ende])
+    if i+dr>len(ndays):
+        ende=len(ndays)
+        pm[a]=sum(price[i:ende])/len(price[i:ende])
+    #Weekly MA
+    if a>=20:
+        ma_w_20[a]=sum(pm[a-20:a])/len(pm[a-20:a])
+    else:
+        ma_w_20[a]=pm[a]
+n1=12
+n2=26
+n3=9
+p_perc_change_dr=[0 for i in range(0,lnr_dr)]
+p_ema1_dr=[0 for i in range(0,lnr_dr)]
+p_ema2_dr=[0 for i in range(0,lnr_dr)]
+macd_dr=[0 for i in range(0,lnr_dr)]
+macd_ema_dr=[0 for i in range(0,lnr_dr)]
+macd_histo_dr=[0 for i in range(0,lnr_dr)]
+p_perc_change_dr[1]=0
+for i in range(0,lnr_dr):
+    if i>0:
+        p_perc_change_dr[i]=pm[i]/pm[i-1]-1
+    if i==0:
+        p_ema1_dr[i]=pm[i]
+        p_ema2_dr[i]=pm[i]
+    else:
+        k1=2/(n1+1);
+        k2=2/(n2+1);
+        p_ema1_dr[i]=pm[i]*k1+p_ema1_dr[i-1]*(1-k1)
+        p_ema2_dr[i]=pm[i]*k2+p_ema2_dr[i-1]*(1-k2)
+    macd_dr[i]=(p_ema1_dr[i]-p_ema2_dr[i])/p_ema1_dr[i]
+    if i==0:
+        macd_ema_dr[i]=macd_dr[i]
+    else:
+        k3=2/(n3+1)
+        macd_ema_dr[i]=macd_dr[i]*k3+macd_ema_dr[i-1]*(1-k3)
+    macd_histo_dr[i]=macd_dr[i]-macd_ema_dr[i]
+#-----------------------------------------------------------------------------------------------------------
+#Plot weekly MACD/price
+print('Plot: Bitcoinity_macd_weekly.png')
+fs=5
+lw=0.75
+xmin=math.floor(min(date_abs_year))
+xmax=math.ceil(max(date_abs_year))
+xstep=1
+ymin=-0.4
+ymax=0.4
+ystep=0.05
+plt.rcParams['axes.linewidth']=lw
+fig=plt.figure(figsize=(12/2.54,8/2.54),facecolor='white')
+ax=plt.subplot()
+ax.tick_params(width=lw)
+plt.grid()                  #Draw grid lines
+ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
+ax.set_axisbelow(True)      #Draw grid lines behind data
+plt.subplots_adjust(left=0.12,right=0.96,top=0.96,bottom=0.12)
+myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
+ax.set_xlim([xmin,xmax])
+ax.set_ylim([-0.2,0.2])
+major_xticks=np.arange(xmin,xmax+0.01,xstep)
+ax.set_xticks(major_xticks)
+ax.set_xticklabels(major_xticks,**myfont)
+major_yticks=np.arange(ymin*1.001,ymax*1.001,ystep)
+ax.set_yticks(major_yticks)
+ax.set_yticklabels(major_yticks,**myfont)
+ax.xaxis.set_major_formatter(FormatStrFormatter('%.0f'))
+ax.yaxis.set_major_formatter(FormatStrFormatter('%.2f'))
+#plt.xlabel('Year',**myfont)
+plt.ylabel('Weekly MACD/Price (12,26,close,9)',**myfont)
+for i in range(0,lnr_dr,1):
+    plt.plot([year_dr[i],year_dr[i]],[0,p_perc_change_dr[i]],'-',color='xkcd:sky blue',linewidth=0.75,label='%-price-change ')
+for i in range(0,lnr_dr,1):
+    line1,=plt.plot([year_dr[i],year_dr[i]],[0,macd_histo_dr[i]],'b-',linewidth=0.75,label='MACD histogram')
+line2,=plt.plot(year_dr,macd_dr,'k-',linewidth=0.25,label='MACD')
+line3,=plt.plot(year_dr,macd_ema_dr,'r-',linewidth=0.25,label='EMA(MACD,9)')
+leg=plt.legend(handles=[line1,line2,line3],fontsize=5,bbox_to_anchor=(0.8,0.2),edgecolor='gray',facecolor='white')
+leg.get_frame().set_linewidth(0.5)
+leg.get_frame().set_alpha(1.0)
+os.makedirs("site", exist_ok=True)
+filename='site/Bitcoinity_macd_weekly.png'
 plt.savefig(filename,dpi=1000)
 #-----------------------------------------------------------------------------------------------------------
 #Fibonacci analysis
