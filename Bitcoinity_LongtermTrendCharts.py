@@ -449,7 +449,7 @@ line14,=plt.plot([date_abs_year[j_max],end_time],[fib_lv_11,fib_lv_11],'-',color
 line15,=plt.plot([date_abs_year[j_max],end_time],[fib_lv_12,fib_lv_12],'-',color='gray',linewidth=0.5,label='fib13')
 line16,=plt.plot([date_abs_year[j_max],end_time],[fib_lv_13,fib_lv_13],'-',color='gray',linewidth=0.5,label='fib14')
 line17,=plt.plot([date_abs_year[j_max],end_time],[fib_lv_14,fib_lv_14],'-',color='gray',linewidth=0.5,label='fib15')
-plt.title('Fibonacci resistance levels according to last bull market',**myfont)
+#plt.title('Fibonacci resistance levels according to last bull market',**myfont)
 fs=4
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 os_x=-1
