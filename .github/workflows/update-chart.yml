@@ -27,7 +27,7 @@ jobs:
 
       - run: cp bitcoinity_data.txt site/
 
-      - run: python Bitcoinity_LongtermTrendChart_log10.py
+      - run: python Bitcoinity_LongtermTrendCharts.py
 
       - uses: actions/upload-pages-artifact@v3
         with:
