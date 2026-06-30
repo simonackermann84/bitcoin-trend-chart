@@ -167,7 +167,7 @@ plt.grid(True,which='minor',color=[0.7,0.7,0.7],linestyle='-',linewidth=0.25)
 plt.grid(True,which='major',color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 #ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 ax.set_axisbelow(True)      #Draw grid lines behind data
-plt.subplots_adjust(left=0.12,right=0.96,top=0.96,bottom=0.12)
+plt.subplots_adjust(left=0.13,right=0.96,top=0.96,bottom=0.12)
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 ax.set_xlim([xmin,xmax])
 ax.set_ylim([0.01,ymax])
@@ -292,7 +292,7 @@ plt.grid(True,which='minor',color=[0.7,0.7,0.7],linestyle='-',linewidth=0.25)
 plt.grid(True,which='major',color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 #ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 ax.set_axisbelow(True)      #Draw grid lines behind data
-plt.subplots_adjust(left=0.12,right=0.96,top=0.96,bottom=0.12)
+plt.subplots_adjust(left=0.13,right=0.96,top=0.96,bottom=0.12)
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 ax.set_xlim([xmin,xmax])
 ax.set_ylim([0.8,ymax])
@@ -410,7 +410,7 @@ ax.tick_params(width=lw)
 plt.grid()                  #Draw grid lines
 ax.grid(color=[0.5,0.5,0.5],linestyle='-',linewidth=0.5)
 ax.set_axisbelow(True)      #Draw grid lines behind data
-plt.subplots_adjust(left=0.12,right=0.96,top=0.96,bottom=0.12)
+plt.subplots_adjust(left=0.13,right=0.96,top=0.96,bottom=0.12)
 myfont={'fontname':'DejaVu Sans','style':'normal','fontweight':'ultralight','size':fs}
 ax.set_xlim([xmin,xmax])
 ax.set_ylim([-0.2,0.2])
